@@ -1,6 +1,5 @@
 import React from 'react';
 import { makeStyles } from '@material-ui/core/styles';
-import Typography from '@material-ui/core/Typography';
 import PropTypes from 'prop-types';
 import CssBaseline from '@material-ui/core/CssBaseline';
 import Fab from '@material-ui/core/Fab';
@@ -8,6 +7,22 @@ import MenuIcon from '@material-ui/icons/Dehaze';
 
 import Sidebar from './Sidebar';
 import AdminAppBar from './AdminAppBar';
+import { Switch, Route } from "react-router-dom";
+import routes from './routes';
+
+const switchRoutes = (
+  <Switch>
+    {routes.map((prop, key) => {
+      return (
+        <Route
+          path={prop.path}
+          component={prop.component}
+          key={key}
+        />
+      );
+    })}
+  </Switch>
+);
 
 const useStyles = makeStyles(theme => ({
   root: {
@@ -50,18 +65,19 @@ export default function Main() {
 
       <AdminAppBar collapseMenu={collapseMenu}/>
       
-      <Sidebar toggleCollapseMenu={toggleCollapseMenu} collapseMenu={collapseMenu} mobileOpen={mobileOpen} handleDrawerToggle={handleDrawerToggle}/>
+      <Sidebar
+        routes={routes}
+        toggleCollapseMenu={toggleCollapseMenu} 
+        collapseMenu={collapseMenu} 
+        mobileOpen={mobileOpen}
+        handleDrawerToggle={handleDrawerToggle}/>
 
       <main className={classes.content}>
         <div className={classes.toolbar} />
-        <Typography paragraph>
-          Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt
-          ut labore et dolore magna aliqua.
-        </Typography>
-        <Typography paragraph>
-          Consequat mauris nunc congue nisi vitae suscipit. Fringilla est ullamcorper eget nulla
-          facilisi etiam dignissim diam.
-        </Typography>
+
+        {/* Page Content */}
+        <div>{switchRoutes}</div>
+        
       </main>
     </div>
   );

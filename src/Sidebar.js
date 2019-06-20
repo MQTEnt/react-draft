@@ -3,15 +3,15 @@ import { makeStyles, useTheme } from '@material-ui/core/styles';
 import Divider from '@material-ui/core/Divider';
 import Drawer from '@material-ui/core/Drawer';
 import Hidden from '@material-ui/core/Hidden';
-import InboxIcon from '@material-ui/icons/MoveToInbox';
 import List from '@material-ui/core/List';
 import ListItem from '@material-ui/core/ListItem';
 import ListItemIcon from '@material-ui/core/ListItemIcon';
 import ListItemText from '@material-ui/core/ListItemText';
 import IconButton from '@material-ui/core/IconButton';
-import MailIcon from '@material-ui/icons/Mail';
 import ChevronLeftIcon from '@material-ui/icons/ChevronLeft';
 import ChevronRightIcon from '@material-ui/icons/ChevronRight';
+
+import { Link } from "react-router-dom";
 
 const drawerWidth = 240;
 const collapseDrawerWidth = 70;
@@ -58,7 +58,7 @@ const useStyles = makeStyles(theme => ({
     },
 }));
 export default function Sidebar(props) {
-    const {toggleCollapseMenu, collapseMenu, mobileOpen, handleDrawerToggle, container} = props;
+    const {toggleCollapseMenu, collapseMenu, mobileOpen, handleDrawerToggle, container, routes} = props;
     const theme = useTheme();
     const classes = useStyles();
 
@@ -74,16 +74,19 @@ export default function Sidebar(props) {
               }
             </IconButton>
           </div>
-          <Divider/> 
+          <Divider/>
           <List>
-           <ListItem button key='inbox'>
-                <ListItemIcon><InboxIcon/></ListItemIcon>
-                <ListItemText primary='Inbox'/>
-            </ListItem>
-            <ListItem button key='mail'>
-                <ListItemIcon><MailIcon/></ListItemIcon>
-                <ListItemText primary='Mail'/>
-            </ListItem>
+            {routes.map((prop, key) => {
+              return (
+                  <ListItem to={prop.path} component={Link} button key={prop.name}>
+                    <ListItemIcon>
+                      <prop.icon/>
+                    </ListItemIcon>
+                    <ListItemText primary={prop.name}/>
+                  </ListItem>
+                );
+              })
+            }
           </List>
         </div>
     );
