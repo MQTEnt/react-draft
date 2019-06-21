@@ -1,5 +1,6 @@
 import React from 'react';
 import Main from './Main';
+import Login from './Login';
 import { createBrowserHistory } from "history";
 import { Router, Route, Switch, Redirect } from "react-router-dom";
 
@@ -10,7 +11,8 @@ export default function App() {
     <Router history={history}>
       <Switch>
         <Route path="/admin" component={Main} />
-        <Redirect from="/" to="/admin/dashboad" />
+        <Route path="/login" component={Login} />
+        <Redirect from="/" to="login" />
       </Switch>
     </Router>
   );

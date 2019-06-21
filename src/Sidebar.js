@@ -17,110 +17,115 @@ const drawerWidth = 240;
 const collapseDrawerWidth = 70;
 
 const useStyles = makeStyles(theme => ({
-    drawer: {
-        [theme.breakpoints.up('md')]: {
-          width: drawerWidth,
-          flexShrink: 0,
-        },
-        transition: theme.transitions.create('width', {
-          easing: theme.transitions.easing.sharp,
-          duration: theme.transitions.duration.enteringScreen,
-        }),
+  drawer: {
+    [theme.breakpoints.up('md')]: {
+      width: drawerWidth,
+      flexShrink: 0,
     },
-    collapseDrawer: {
-        [theme.breakpoints.up('md')]: {
-          width: collapseDrawerWidth,
-          flexShrink: 0,
-        },
-        transition: theme.transitions.create('width', {
-          easing: theme.transitions.easing.sharp,
-          duration: theme.transitions.duration.leavingScreen,
-        }),
+    transition: theme.transitions.create('width', {
+      easing: theme.transitions.easing.sharp,
+      duration: theme.transitions.duration.enteringScreen,
+    }),
+  },
+  collapseDrawer: {
+    [theme.breakpoints.up('md')]: {
+      width: collapseDrawerWidth,
+      flexShrink: 0,
     },
-    drawerPaper: {
-        width: drawerWidth,
-        transition: theme.transitions.create('width', {
-          easing: theme.transitions.easing.sharp,
-          duration: theme.transitions.duration.enteringScreen,
-        }),
-    },
-    collapseDrawerPaper: {
-        width: collapseDrawerWidth,
-        overflowX: 'hidden',
-        transition: theme.transitions.create('width', {
-          easing: theme.transitions.easing.sharp,
-          duration: theme.transitions.duration.leavingScreen,
-        }),
-    },
-    toolbar: theme.mixins.toolbar,
-    margin: {
-        margin: theme.spacing(1),
-    },
+    transition: theme.transitions.create('width', {
+      easing: theme.transitions.easing.sharp,
+      duration: theme.transitions.duration.leavingScreen,
+    }),
+  },
+  drawerPaper: {
+    width: drawerWidth,
+    transition: theme.transitions.create('width', {
+      easing: theme.transitions.easing.sharp,
+      duration: theme.transitions.duration.enteringScreen,
+    }),
+  },
+  collapseDrawerPaper: {
+    width: collapseDrawerWidth,
+    overflowX: 'hidden',
+    transition: theme.transitions.create('width', {
+      easing: theme.transitions.easing.sharp,
+      duration: theme.transitions.duration.leavingScreen,
+    }),
+  },
+  toolbar: theme.mixins.toolbar,
+  margin: {
+    margin: theme.spacing(1),
+  },
 }));
 export default function Sidebar(props) {
-    const {toggleCollapseMenu, collapseMenu, mobileOpen, handleDrawerToggle, container, routes} = props;
-    const theme = useTheme();
-    const classes = useStyles();
+  const { toggleCollapseMenu, collapseMenu, mobileOpen, handleDrawerToggle, container, routes } = props;
+  const theme = useTheme();
+  const classes = useStyles();
+  const handleMobileDrawerItemClick = () => {
+    if (mobileOpen) {
+      handleDrawerToggle();
+    }
+  }
 
-    const drawer = (
-        <div>
-          <div className={classes.toolbar}>
-            <IconButton aria-label="Delete" className={classes.margin} onClick={toggleCollapseMenu}>
-              { 
-                collapseMenu ?  
-                <ChevronRightIcon fontSize="default" />
-                :
-                <ChevronLeftIcon fontSize="default" />
-              }
-            </IconButton>
-          </div>
-          <Divider/>
-          <List>
-            {routes.map((prop, key) => {
-              return (
-                  <ListItem to={prop.path} component={Link} button key={prop.name}>
-                    <ListItemIcon>
-                      <prop.icon/>
-                    </ListItemIcon>
-                    <ListItemText primary={prop.name}/>
-                  </ListItem>
-                );
-              })
-            }
-          </List>
-        </div>
-    );
-    return (
-        <nav className={collapseMenu ? classes.collapseDrawer : classes.drawer} aria-label="Mailbox folders">
-            {/* The implementation can be swapped with js to avoid SEO duplication of links. */}
-            <Hidden smUp implementation="css">
-            <Drawer
-                container={container}
-                variant="temporary"
-                anchor={theme.direction === 'rtl' ? 'right' : 'left'}
-                open={mobileOpen}
-                onClose={handleDrawerToggle}
-                classes={{
-                paper: collapseMenu ? classes.collapseDrawerPaper: classes.drawerPaper,
-                }}
-                ModalProps={{
-                keepMounted: true, // Better open performance on mobile.
-                }}
-            >
-                {drawer}
-            </Drawer>
-            </Hidden>
-            <Hidden smDown implementation="css">
-            <Drawer
-                classes={{
-                paper: collapseMenu ? classes.collapseDrawerPaper: classes.drawerPaper
-                }}
-                variant="permanent"
-                open
-            >
-                {drawer}
-            </Drawer>
-            </Hidden>
-        </nav>
-    );
+  const drawer = (
+    <div>
+      <div className={classes.toolbar}>
+        <IconButton aria-label="Delete" className={classes.margin} onClick={toggleCollapseMenu}>
+          {
+            collapseMenu ?
+              <ChevronRightIcon fontSize="default" />
+              :
+              <ChevronLeftIcon fontSize="default" />
+          }
+        </IconButton>
+      </div>
+      <Divider />
+      <List>
+        {routes.map((prop, key) => {
+          return (
+            <ListItem to={prop.path} component={Link} button key={prop.name} onClick={handleMobileDrawerItemClick}>
+              <ListItemIcon>
+                <prop.icon />
+              </ListItemIcon>
+              <ListItemText primary={prop.name} />
+            </ListItem>
+          );
+        })
+        }
+      </List>
+    </div>
+  );
+  return (
+    <nav className={collapseMenu ? classes.collapseDrawer : classes.drawer} aria-label="Mailbox folders">
+      {/* The implementation can be swapped with js to avoid SEO duplication of links. */}
+      <Hidden smUp implementation="css">
+        <Drawer
+          container={container}
+          variant="temporary"
+          anchor={theme.direction === 'rtl' ? 'right' : 'left'}
+          open={mobileOpen}
+          onClose={handleDrawerToggle}
+          classes={{
+            paper: collapseMenu ? classes.collapseDrawerPaper : classes.drawerPaper,
+          }}
+          ModalProps={{
+            keepMounted: true, // Better open performance on mobile.
+          }}
+        >
+          {drawer}
+        </Drawer>
+      </Hidden>
+      <Hidden smDown implementation="css">
+        <Drawer
+          classes={{
+            paper: collapseMenu ? classes.collapseDrawerPaper : classes.drawerPaper
+          }}
+          variant="permanent"
+          open
+        >
+          {drawer}
+        </Drawer>
+      </Hidden>
+    </nav>
+  );
 }
