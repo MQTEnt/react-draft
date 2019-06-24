@@ -7,8 +7,7 @@ import AddIcon from '@material-ui/icons/Add';
 import Tooltip from '@material-ui/core/Tooltip';
 import FilterListIcon from '@material-ui/icons/FilterList';
 import IconButton from '@material-ui/core/IconButton';
-import Modal from './Modal';
-import CreateProduct from './CreateProduct';
+import Modal from '../Modal/Modal';
 
 const useToolbarStyles = makeStyles(theme => ({
     root: {
@@ -43,7 +42,7 @@ const useToolbarStyles = makeStyles(theme => ({
 }));
 
 const TableToolbar = (props) => {
-    const {title, handleAcceptButton, handleCancelButton} = props;
+    const {title, handleAcceptButton, handleCancelButton, ModalContent} = props;
     const [open, setOpen] = React.useState(false);
 
     const handleClickOpen = () => {
@@ -97,7 +96,7 @@ const TableToolbar = (props) => {
                 handleAccept={handleAccept}
                 handleCancel={handleCancel}
                 title={title}
-                ModalContent={CreateProduct}
+                ModalContent={ModalContent}
             />
         </Toolbar>
     );

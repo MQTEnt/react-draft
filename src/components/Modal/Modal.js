@@ -17,6 +17,8 @@ function Modal(props) {
     title,
     defaultItem,
     ModalContent,
+    hasDelete,
+    handleDelete
   } = props;
 
   const [item, setItem] = useState(defaultItem);
@@ -32,6 +34,10 @@ function Modal(props) {
 
   const handleAcceptButton = () => {
     handleAccept(item)
+  }
+
+  const handleDeleteButton = () => {
+    handleDelete(item.id)
   }
 
   return (
@@ -51,6 +57,7 @@ function Modal(props) {
         </DialogContent>
         <DialogActions>
           <Button variant="contained" onClick={handleAcceptButton} color="primary">OK</Button>
+          { hasDelete ? <Button variant="contained" onClick={handleDeleteButton} color="secondary">Delete</Button> : ''}
           <Button onClick={handleCancel} color="primary" autoFocus>Cancel</Button>
         </DialogActions>
       </Dialog>

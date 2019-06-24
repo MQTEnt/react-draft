@@ -5,8 +5,8 @@ import CssBaseline from '@material-ui/core/CssBaseline';
 import Fab from '@material-ui/core/Fab';
 import MenuIcon from '@material-ui/icons/Dehaze';
 
-import Sidebar from './Sidebar';
-import AdminAppBar from './AdminAppBar';
+import Sidebar from './components/Layouts/Sidebar';
+import AdminAppBar from './components/Layouts/AdminAppBar';
 import { Switch, Route } from "react-router-dom";
 import routes from './routes';
 

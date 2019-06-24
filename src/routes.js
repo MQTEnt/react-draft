@@ -1,5 +1,5 @@
-import Dashboard from './Dashboard';
-import Product from './Product';
+import Dashboard from './components/Dashboard/Dashboard';
+import Product from './components/Product/Product';
 
 import DashboardIcon from '@material-ui/icons/Dashboard';
 import RedeemIcon from '@material-ui/icons/Redeem';
