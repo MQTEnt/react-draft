@@ -3,6 +3,10 @@ import { makeStyles } from '@material-ui/core/styles';
 import TextField from '@material-ui/core/TextField';
 
 const useStyles = makeStyles(theme => ({
+    container: {
+        display: 'flex',
+        flexWrap: 'wrap',
+    },
     margin: {
         margin: theme.spacing(1),
     },
@@ -20,7 +24,7 @@ const CreateProduct = (props) => {
     }
 
     return (
-        <div>
+        <div className={classes.container}>
             <TextField
                 autoFocus
                 className={classes.margin}

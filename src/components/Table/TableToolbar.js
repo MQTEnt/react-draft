@@ -53,9 +53,8 @@ const TableToolbar = (props) => {
         setOpen(false);
     }
 
-    const handleAccept = (item) => {
-        handleAcceptButton(item);
-        handleClose();
+    const handleAccept = (item, displayModalLoader) => {
+        handleAcceptButton(item, displayModalLoader, handleClose);
     }
 
     const handleCancel = () => {

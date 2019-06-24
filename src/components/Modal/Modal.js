@@ -6,6 +6,7 @@ import DialogActions from '@material-ui/core/DialogActions';
 import DialogContent from '@material-ui/core/DialogContent';
 import DialogTitle from '@material-ui/core/DialogTitle';
 import withMobileDialog from '@material-ui/core/withMobileDialog';
+import withModalLoader from '../Loader/ModalLoader';
 
 function Modal(props) {
   const {
@@ -18,7 +19,9 @@ function Modal(props) {
     defaultItem,
     ModalContent,
     hasDelete,
-    handleDelete
+    handleDelete,
+    displayLoader,
+    renderLoader,
   } = props;
 
   const [item, setItem] = useState(defaultItem);
@@ -33,7 +36,7 @@ function Modal(props) {
   }, [defaultItem]);
 
   const handleAcceptButton = () => {
-    handleAccept(item)
+    handleAccept(item, displayLoader)
   }
 
   const handleDeleteButton = () => {
@@ -60,6 +63,7 @@ function Modal(props) {
           { hasDelete ? <Button variant="contained" onClick={handleDeleteButton} color="secondary">Delete</Button> : ''}
           <Button onClick={handleCancel} color="primary" autoFocus>Cancel</Button>
         </DialogActions>
+        { renderLoader() }
       </Dialog>
     </div>
   );
@@ -69,4 +73,4 @@ Modal.propTypes = {
   fullScreen: PropTypes.bool.isRequired,
 };
 
-export default withMobileDialog()(Modal);
+export default withMobileDialog()(withModalLoader(Modal));

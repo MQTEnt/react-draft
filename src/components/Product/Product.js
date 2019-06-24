@@ -1,19 +1,12 @@
 import React, { useState } from 'react';
-import { makeStyles } from '@material-ui/core/styles';
 import Paper from '@material-ui/core/Paper';
 import DetailProduct from './DetailProduct';
 import CreateProduct from './CreateProduct';
 import CustomTable from '../Table/CustomTable';
 import TableToolbar from '../Table/TableToolbar';
 import Modal from '../Modal/Modal';
+import withLoader from '../Loader/Loader';
 
-const useStyles = makeStyles(theme => ({
-    root: {
-        flexShrink: 0,
-        color: theme.palette.text.secondary,
-        marginLeft: theme.spacing(2.5),
-    },
-}));
 
 const createData = (id, name, quantity, price) => {
     return { id, name, quantity, price };
@@ -23,17 +16,24 @@ const rows = [
     createData(1, 'Cupcake', 305, 3.7)
 ].sort((a, b) => (a.quantity < b.quantity ? -1 : 1));
 
-const Product = () => {
-    const classes = useStyles();
+const Product = (props) => {
+    const { displayLoader } = props;
     const [items, setItems] = useState(rows)
     const [selectedItem, setSelectedItem] = useState(null)
     const [openEdit, setOpenEdit] = useState(false);
 
-    const handleAcceptCreate = (item) => {
-        setItems([
-            ...items,
-            { id: items[items.length - 1].id + 1, ...item },
-        ]);
+    const handleAcceptCreate = (item, displayModalLoader, closeModal) => {
+        displayModalLoader(true);
+
+        setTimeout(() => {
+            setItems([
+                ...items,
+                { id: items[items.length - 1].id + 1, ...item },
+            ]);
+
+            displayModalLoader(false, 'Create Successfully!');
+            closeModal();
+        }, 2000);
     }
 
     const handleCancelCreate = () => {
@@ -50,7 +50,7 @@ const Product = () => {
         const newItems = items.map(i => i.id === item.id ? item : i);
         setItems(newItems);
         setSelectedItem(item);
-        setOpenEdit(false)
+        setOpenEdit(false);
     }
 
     const handleDelete = (id) => {
@@ -63,7 +63,7 @@ const Product = () => {
     return (
         <div>
             <h2>Product</h2>
-            <Paper className={classes.root}>
+            <Paper>
                 <TableToolbar
                     title={"Create new product"}
                     ModalContent={CreateProduct}
@@ -92,4 +92,4 @@ const Product = () => {
     );
 }
 
-export default Product;
+export default withLoader(Product);
