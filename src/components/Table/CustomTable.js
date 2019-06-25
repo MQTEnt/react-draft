@@ -26,9 +26,10 @@ const useStyles2 = makeStyles(theme => ({
     root: {
         width: '100%',
         marginTop: theme.spacing(3),
+        overflowX: 'auto',
     },
     table: {
-        minWidth: 500,
+        minWidth: 650,
     },
     tableWrapper: {
         overflowX: 'auto',
@@ -110,7 +111,7 @@ const CustomTable = (props) => {
     }
 
     return (
-        <div className={classes.tableWrapper}>
+        <div className={classes.root}>
             <Table className={classes.table}>
                 <TableHead>
                     <TableRow>

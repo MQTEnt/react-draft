@@ -7,7 +7,7 @@ import InputAdornment from '@material-ui/core/InputAdornment';
 import EmailIcon from '@material-ui/icons/Email';
 import KeyIcon from '@material-ui/icons/VpnKey';
 import ChevronRightIcon from '@material-ui/icons/ChevronRight';
-import AddIcon from '@material-ui/icons/Add';
+import CheckIcon from '@material-ui/icons/Check';
 import Typography from '@material-ui/core/Typography';
 import Button from '@material-ui/core/Button';
 
@@ -81,7 +81,7 @@ const Login = () => {
 
                         <Button variant="contained" color="secondary" className={classes.button}>
                             Register
-                            <AddIcon />
+                            <CheckIcon />
                         </Button>
                     </form>
                 </Grid>

@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import Paper from '@material-ui/core/Paper';
 import DetailProduct from './DetailProduct';
 import CreateProduct from './CreateProduct';
@@ -18,9 +18,28 @@ const rows = [
 
 const Product = (props) => {
     const { displayLoader } = props;
-    const [items, setItems] = useState(rows)
+    const [items, setItems] = useState([])
     const [selectedItem, setSelectedItem] = useState(null)
     const [openEdit, setOpenEdit] = useState(false);
+
+    useEffect(() => {
+        let isSubscribed = true;
+        if (isSubscribed) {
+            displayLoader(true);
+
+            setTimeout(() => {
+                displayLoader(false);
+                setItems(rows);
+            }, 1000);
+        }
+
+        return () => {
+            console.log('Clean Up');
+            isSubscribed = false;
+        }
+
+        // eslint-disable-next-line react-hooks/exhaustive-deps
+    }, []);
 
     const handleAcceptCreate = (item, displayModalLoader, closeModal) => {
         displayModalLoader(true);
@@ -28,10 +47,10 @@ const Product = (props) => {
         setTimeout(() => {
             setItems([
                 ...items,
-                { id: items[items.length - 1].id + 1, ...item },
+                { id: items.length > 0 ? items[items.length - 1].id + 1 : 1, ...item },
             ]);
 
-            displayModalLoader(false, 'Create Successfully!');
+            displayModalLoader(false, 'Created Successfully!');
             closeModal();
         }, 2000);
     }
@@ -46,18 +65,29 @@ const Product = (props) => {
         setOpenEdit(true);
     }
 
-    const handleAcceptEdit = (item) => {
-        const newItems = items.map(i => i.id === item.id ? item : i);
-        setItems(newItems);
-        setSelectedItem(item);
-        setOpenEdit(false);
+    const handleAcceptEdit = (item, displayModalLoader) => {
+        displayModalLoader(true);
+
+        setTimeout(() => {
+            const newItems = items.map(i => i.id === item.id ? item : i);
+            setItems(newItems);
+            setSelectedItem(item);
+
+            displayModalLoader(false, 'Updated Successfully!');
+            setOpenEdit(false);
+        }, 2000);
     }
 
-    const handleDelete = (id) => {
-        const newItems = items.filter(i => i.id !== id);
-        setItems(newItems);
-        setSelectedItem(null);
-        setOpenEdit(false)
+    const handleDelete = (id, displayModalLoader) => {
+        displayModalLoader(true);
+
+        setTimeout(() => {
+            const newItems = items.filter(i => i.id !== id);
+            setItems(newItems);
+
+            displayModalLoader(false, 'Deleted Successfully!');
+            setOpenEdit(false);
+        }, 2000);
     }
 
     return (
@@ -75,18 +105,18 @@ const Product = (props) => {
                     handleClickRow={handleClickRow}
                 />
             </Paper>
-            { selectedItem ? 
+            {selectedItem ?
                 <Modal
                     open={openEdit}
-                    handleClose={ () => {setOpenEdit(false) } }
+                    handleClose={() => { setOpenEdit(false) }}
                     handleAccept={handleAcceptEdit}
                     handleDelete={handleDelete}
-                    handleCancel={ () => {setOpenEdit(false) } }
+                    handleCancel={() => { setOpenEdit(false) }}
                     title={"Detail product"}
-                    ModalContent={ DetailProduct }
+                    ModalContent={DetailProduct}
                     defaultItem={selectedItem}
                     hasDelete={true}
-                /> : null
+                /> : ''
             }
         </div>
     );

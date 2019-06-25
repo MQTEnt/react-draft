@@ -1,6 +1,7 @@
 import React, { useState } from 'react';
 import LinearProgress from '@material-ui/core/LinearProgress';
 import Snackbar from '@material-ui/core/Snackbar';
+import Slide from '@material-ui/core/Slide';
 
 /*
  * HOC with prop render
@@ -30,11 +31,16 @@ const withModalLoader = (WrappedComponent) => {
             return  isShowLoader ? <LinearProgress /> : '';
         }
 
+        const TransitionComponent = (props) => {
+            return <Slide {...props} direction="up"/>;
+        }
+
         return (
             <div>
                 <WrappedComponent displayLoader={displayLoader} {...props} renderLoader={renderLoader} />
                 <Snackbar
                         open={isShowSnackBar}
+                        TransitionComponent={TransitionComponent}
                         ContentProps={{
                             'aria-describedby': 'message-id',
                         }}

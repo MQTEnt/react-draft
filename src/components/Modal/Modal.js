@@ -25,9 +25,10 @@ function Modal(props) {
   } = props;
 
   const [item, setItem] = useState(defaultItem);
+  const [disableButton, setDisableButton] = useState(false)
 
   const onChangeItem = (item) => {
-    setItem(item)
+    setItem(item);
   }
 
   // Use for only componentDidUpdate
@@ -36,11 +37,13 @@ function Modal(props) {
   }, [defaultItem]);
 
   const handleAcceptButton = () => {
-    handleAccept(item, displayLoader)
+    handleAccept(item, displayLoader);
+    setDisableButton(true);
   }
 
   const handleDeleteButton = () => {
-    handleDelete(item.id)
+    handleDelete(item.id, displayLoader);
+    setDisableButton(true)
   }
 
   return (
@@ -59,9 +62,9 @@ function Modal(props) {
             <ModalContent item={item} onChangeItem={onChangeItem}/>
         </DialogContent>
         <DialogActions>
-          <Button variant="contained" onClick={handleAcceptButton} color="primary">OK</Button>
-          { hasDelete ? <Button variant="contained" onClick={handleDeleteButton} color="secondary">Delete</Button> : ''}
-          <Button onClick={handleCancel} color="primary" autoFocus>Cancel</Button>
+          <Button variant="contained" onClick={handleAcceptButton} color="primary" disabled={disableButton}>OK</Button>
+          { hasDelete ? <Button variant="contained" onClick={handleDeleteButton} color="secondary" disabled={disableButton}>Delete</Button> : ''}
+          <Button onClick={handleCancel} color="primary" autoFocus disabled={disableButton}>Cancel</Button>
         </DialogActions>
         { renderLoader() }
       </Dialog>

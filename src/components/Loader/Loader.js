@@ -28,6 +28,9 @@ const withLoader = (WrappedComponent) => {
                 if (message) {
                     setMessage(message);
                 }
+                else {
+                    return;
+                }
                 setIsShowSnackBar(true);
 
                 setTimeout(() => {
