@@ -10,8 +10,8 @@ import ListItemText from '@material-ui/core/ListItemText';
 import IconButton from '@material-ui/core/IconButton';
 import ChevronLeftIcon from '@material-ui/icons/ChevronLeft';
 import ChevronRightIcon from '@material-ui/icons/ChevronRight';
-
-import { Link } from "react-router-dom";
+import { NavLink } from "react-router-dom";
+import './Sidebar.css'
 
 const drawerWidth = 240;
 const collapseDrawerWidth = 70;
@@ -55,7 +55,7 @@ const useStyles = makeStyles(theme => ({
   toolbar: theme.mixins.toolbar,
   margin: {
     margin: theme.spacing(1),
-  },
+  }
 }));
 export default function Sidebar(props) {
   const { toggleCollapseMenu, collapseMenu, mobileOpen, handleDrawerToggle, container, routes } = props;
@@ -83,12 +83,19 @@ export default function Sidebar(props) {
       <List>
         {routes.map((prop, key) => {
           return (
-            <ListItem to={prop.path} component={Link} button key={prop.name} onClick={handleMobileDrawerItemClick}>
-              <ListItemIcon>
-                <prop.icon />
-              </ListItemIcon>
-              <ListItemText primary={prop.name} />
-            </ListItem>
+            <NavLink
+              to={prop.path}
+              className={'nav-link-item'}
+              activeClassName="active"
+              key={key}
+            >
+              <ListItem button key={prop.name} onClick={handleMobileDrawerItemClick}>
+                <ListItemIcon>
+                  <prop.icon />
+                </ListItemIcon>
+                <ListItemText primary={prop.name} />
+              </ListItem>
+            </NavLink>
           );
         })
         }
