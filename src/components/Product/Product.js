@@ -23,15 +23,15 @@ const Product = (props) => {
     const [openEdit, setOpenEdit] = useState(false);
 
     useEffect(() => {
-        let isSubscribed = true;
-        if (isSubscribed) {
-            displayLoader(true);
+        let isSubscribed = true; //Setting variable isSubscribed for handle unmounted component
+        displayLoader(true);
 
-            setTimeout(() => {
+        setTimeout(() => {
+            if (isSubscribed) {
                 displayLoader(false);
                 setItems(rows);
-            }, 1000);
-        }
+            }
+        }, 1000);
 
         return () => {
             console.log('Clean Up');
