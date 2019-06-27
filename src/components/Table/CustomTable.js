@@ -95,7 +95,7 @@ TablePaginationActions.propTypes = {
 };
 
 const CustomTable = (props) => {
-    const { rows, handleClickRow } = props;
+    const { rows, handleClickRow, fields } = props;
     const classes = useStyles2();
     const [page, setPage] = React.useState(0);
     const [rowsPerPage, setRowsPerPage] = React.useState(5);
@@ -115,9 +115,9 @@ const CustomTable = (props) => {
             <Table className={classes.table}>
                 <TableHead>
                     <TableRow>
-                        <TableCell>Name</TableCell>
-                        <TableCell align="right">Quantity</TableCell>
-                        <TableCell align="right">Price</TableCell>
+                        {
+                            fields.map((field, index) => <TableCell key={index} align={index > 0 ? 'right' : 'inherit'}>{field.displayName}</TableCell>)
+                        }
                     </TableRow>
                 </TableHead>
                 <TableBody>
@@ -127,11 +127,13 @@ const CustomTable = (props) => {
                             key={row.id}
                             onClick={event => handleClickRow(event, row.id)}
                         >
-                            <TableCell component="th" scope="row">
-                                {row.name}
-                            </TableCell>
-                            <TableCell align="right">{row.quantity}</TableCell>
-                            <TableCell align="right">{row.price}</TableCell>
+                            {
+                                fields.map((field, index) => index === 0 ?
+                                    <TableCell key={index} component="th" scope="row">{row[field.name]} </TableCell>
+                                    :
+                                    <TableCell key={index} align="right">{row[field.name]}</TableCell>
+                                )
+                            }
                         </TableRow>
                     ))}
 

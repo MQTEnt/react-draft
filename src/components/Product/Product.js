@@ -22,6 +22,12 @@ const Product = (props) => {
     const [selectedItem, setSelectedItem] = useState(null)
     const [openEdit, setOpenEdit] = useState(false);
 
+    const fields = [
+        { name: 'name', displayName: 'Namea' },
+        { name: 'quantity', displayName: 'Quantity' },
+        { name: 'price', displayName: 'Price' }
+    ];
+
     useEffect(() => {
         let isSubscribed = true; //Setting variable isSubscribed for handle unmounted component
         displayLoader(true);
@@ -102,6 +108,7 @@ const Product = (props) => {
                 />
                 <CustomTable
                     rows={items}
+                    fields={fields}
                     handleClickRow={handleClickRow}
                 />
             </Paper>
