@@ -14,6 +14,9 @@ import Button from '@material-ui/core/Button';
 import { Route, Redirect } from 'react-router-dom';
 import Auth from './Auth';
 
+import Tooltip from '@material-ui/core/Tooltip';
+import ChatIcon from '@material-ui/icons/Chat';
+
 const auth = Auth;
 
 const useStyles = makeStyles(theme => ({
@@ -66,7 +69,12 @@ const Login = (props) => {
     return (
         <div className={classes.root}>
             <Paper className={classes.paper}>
-                <Typography style={{ textAlign: 'center' }} variant="h5" gutterBottom>Sign in</Typography>
+                <Typography style={{ textAlign: 'center' }} variant="h5" gutterBottom>
+                    Sign in
+                    <Tooltip title="Email: admin / Password: admin" placement="top">
+                        <ChatIcon/>
+                    </Tooltip>
+                </Typography>
                 <Grid container wrap="nowrap" spacing={2}>
                     <form className={classes.container} noValidate autoComplete="off">
                         <TextField
