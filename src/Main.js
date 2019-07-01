@@ -36,7 +36,7 @@ const useStyles = makeStyles(theme => ({
   },
   fab: {
     margin: theme.spacing(1),
-    position: 'absolute',
+    position: 'fixed',
     bottom: '5%'
   },
 }));

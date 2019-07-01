@@ -39,6 +39,7 @@ const withModalLoader = (WrappedComponent) => {
             <div>
                 <WrappedComponent displayLoader={displayLoader} {...props} renderLoader={renderLoader} />
                 <Snackbar
+                        style={{zIndex: isShowSnackBar ? '' : '-1'}}
                         open={isShowSnackBar}
                         TransitionComponent={TransitionComponent}
                         ContentProps={{
