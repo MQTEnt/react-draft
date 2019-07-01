@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useState } from 'react';
 import { makeStyles } from '@material-ui/core/styles';
 import Paper from '@material-ui/core/Paper';
 import Grid from '@material-ui/core/Grid';
@@ -10,6 +10,11 @@ import ChevronRightIcon from '@material-ui/icons/ChevronRight';
 import CheckIcon from '@material-ui/icons/Check';
 import Typography from '@material-ui/core/Typography';
 import Button from '@material-ui/core/Button';
+
+import { Route, Redirect } from 'react-router-dom';
+import Auth from './Auth';
+
+const auth = Auth;
 
 const useStyles = makeStyles(theme => ({
     root: {
@@ -35,12 +40,33 @@ const useStyles = makeStyles(theme => ({
     }
 }));
 
-const Login = () => {
+const Login = (props) => {
+    const [authState, setAuthState] = useState({ redirectToReferrer: false });
+    const [user, setUser] = useState({email: '', password: ''});
+
+    const login = () => {
+        auth.authenticate(() => {
+            setAuthState({ redirectToReferrer: true });
+        }, user);
+    };
+
+    const handleChange = (event, type) => {
+        const value = event.target.value;
+        setUser({
+            ...user, [type]: value
+        });
+    }
+
     const classes = useStyles();
+    let { from } = props.location.state || { from: { pathname: "/" } };
+    let { redirectToReferrer } = authState;
+
+    if (redirectToReferrer) return <Redirect to={from} />;
+
     return (
         <div className={classes.root}>
             <Paper className={classes.paper}>
-                <Typography style={{textAlign: 'center'}} variant="h5" gutterBottom>Sign in</Typography>
+                <Typography style={{ textAlign: 'center' }} variant="h5" gutterBottom>Sign in</Typography>
                 <Grid container wrap="nowrap" spacing={2}>
                     <form className={classes.container} noValidate autoComplete="off">
                         <TextField
@@ -49,6 +75,7 @@ const Login = () => {
                             style={{ margin: 8 }}
                             fullWidth
                             margin="normal"
+                            onChange={(e) => handleChange(e, 'email')}
                             InputProps={{
                                 startAdornment: (
                                     <InputAdornment position="start">
@@ -65,6 +92,7 @@ const Login = () => {
                             fullWidth
                             type="password"
                             margin="normal"
+                            onChange={(e) => handleChange(e, 'password')}
                             InputProps={{
                                 startAdornment: (
                                     <InputAdornment position="start">
@@ -74,7 +102,7 @@ const Login = () => {
                             }}
                         />
 
-                        <Button variant="contained" color="primary" className={classes.button}>
+                        <Button variant="contained" color="primary" className={classes.button} onClick={login}>
                             Login
                             <ChevronRightIcon />
                         </Button>
@@ -89,5 +117,27 @@ const Login = () => {
         </div>
     )
 }
+
+const PrivateRoute = ({ component: Component, ...rest }) => {
+    return (
+        <Route
+            {...rest}
+            render={props =>
+                auth.isAuthenticated ? (
+                    <Component {...props} />
+                ) : (
+                        <Redirect
+                            to={{
+                                pathname: "/login",
+                                state: { from: props.location }
+                            }}
+                        />
+                    )
+            }
+        />
+    );
+}
+
+export { Login, PrivateRoute };
 
 export default Login

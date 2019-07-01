@@ -14,6 +14,9 @@ import MailIcon from '@material-ui/icons/Mail';
 import NotificationsIcon from '@material-ui/icons/Notifications';
 import MoreIcon from '@material-ui/icons/MoreVert';
 
+import Auth from '../Auth/Auth';
+const auth = Auth;
+
 const drawerWidth = 240;
 const collapseDrawerWidth = 70;
 
@@ -121,6 +124,11 @@ export default function AdminAppBar(props) {
     setMobileMoreAnchorEl(event.currentTarget);
   }
 
+  const handleClickLogout = () => {
+    auth.signout();
+    window.location = '/login';
+  };
+
   const menuId = 'primary-search-account-menu';
   const renderMenu = (
     <Menu
@@ -133,7 +141,7 @@ export default function AdminAppBar(props) {
       onClose={handleMenuClose}
     >
       <MenuItem onClick={handleMenuClose}>Profile</MenuItem>
-      <MenuItem onClick={handleMenuClose}>My account</MenuItem>
+      <MenuItem onClick={handleClickLogout}>Logout</MenuItem>
     </Menu>
   );
 
