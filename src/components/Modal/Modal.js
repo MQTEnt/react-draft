@@ -34,7 +34,7 @@ function Modal(props) {
   // Use for only componentDidUpdate
   useEffect(() => {
     setItem(defaultItem);
-  }, [defaultItem, disableButton]);
+  }, [defaultItem]);
 
   const handleAcceptButton = () => {
     handleAccept(item, displayLoader, setDisableButton);
