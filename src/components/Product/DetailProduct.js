@@ -1,19 +1,17 @@
 import React from 'react';
 import { makeStyles } from '@material-ui/core/styles';
-import TextField from '@material-ui/core/TextField';
+import { TextInput, CustomizeForm, ControllActiveButton } from '../Validation/Inputs';
+import { required, number } from '../Validation/Rules';
 
 const useStyles = makeStyles(theme => ({
     container: {
         display: 'flex',
         flexWrap: 'wrap',
     },
-    margin: {
-        margin: theme.spacing(1),
-    },
 }));
 
 const DetailProduct = (props) => {
-    const { onChangeItem, item } = props;
+    const { onChangeItem, item, disableButton } = props;
     const classes = useStyles();
     
 
@@ -24,44 +22,38 @@ const DetailProduct = (props) => {
     }
 
     return (
-        <div className={classes.container}>
-            <TextField
+        <CustomizeForm className={classes.container} autoComplete="off">
+            <TextInput
                 disabled
-                className={classes.margin}
                 id="id"
                 label="ID"
                 value={item.id}
-                fullWidth
-                InputProps={{
-                    readOnly: true,
-                }}
             />
-            <TextField
+            <TextInput
                 autoFocus
                 className={classes.margin}
                 id="name"
                 label="Name"
                 value={item.name}
                 onChange={event => {handleChange(event, 'name')}}
-                fullWidth
+                validations={[required]}
             />
-            <TextField
-                className={classes.margin}
+            <TextInput
                 id="quantity"
                 label="Quantity"
                 value={item.quantity}
                 onChange={event => {handleChange(event, 'quantity')}}
-                fullWidth
+                validations={[number]}
             />
-            <TextField
-                className={classes.margin}
+            <TextInput
                 id="price"
                 label="Price"
                 value={item.price}
                 onChange={event => {handleChange(event, 'price')}}
-                fullWidth
+                validations={[number]}
             />
-        </div>
+            <ControllActiveButton disableButton={disableButton} />
+        </CustomizeForm>
     );
 }
 

@@ -59,12 +59,12 @@ function Modal(props) {
         <DialogTitle id="responsive-dialog-title">{title}</DialogTitle>
         <DialogContent>
             {/* Modal content passed by prop */}
-            <ModalContent item={item} onChangeItem={onChangeItem}/>
+            <ModalContent item={item} onChangeItem={onChangeItem} disableButton={setDisableButton} />
         </DialogContent>
         <DialogActions>
           <Button variant="contained" onClick={handleAcceptButton} color="primary" disabled={disableButton}>OK</Button>
           { hasDelete ? <Button variant="contained" onClick={handleDeleteButton} color="secondary" disabled={disableButton}>Delete</Button> : ''}
-          <Button onClick={handleCancel} color="primary" autoFocus disabled={disableButton}>Cancel</Button>
+          <Button onClick={handleCancel} color="primary" autoFocus>Cancel</Button>
         </DialogActions>
         { renderLoader() }
       </Dialog>
