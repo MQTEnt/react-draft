@@ -47,7 +47,7 @@ const Product = (props) => {
         // eslint-disable-next-line react-hooks/exhaustive-deps
     }, []);
 
-    const handleAcceptCreate = (item, displayModalLoader, closeModal, setDisabledButton) => {
+    const handleAcceptCreate = (item, displayModalLoader, closeModal) => {
         displayModalLoader(true);
 
         setTimeout(() => {
@@ -58,7 +58,6 @@ const Product = (props) => {
 
             displayModalLoader(false, 'Created Successfully!');
             closeModal();
-            setDisabledButton(false);
         }, 2000);
     }
 
@@ -72,7 +71,7 @@ const Product = (props) => {
         setOpenEdit(true);
     }
 
-    const handleAcceptEdit = (item, displayModalLoader, setDisabledButton) => {
+    const handleAcceptEdit = (item, displayModalLoader) => {
         displayModalLoader(true);
 
         setTimeout(() => {
@@ -82,11 +81,10 @@ const Product = (props) => {
 
             displayModalLoader(false, 'Updated Successfully!');
             setOpenEdit(false);
-            setDisabledButton(false);
         }, 2000);
     }
 
-    const handleDelete = (id, displayModalLoader, setDisabledButton) => {
+    const handleDelete = (id, displayModalLoader) => {
         displayModalLoader(true);
 
         setTimeout(() => {
@@ -95,7 +93,6 @@ const Product = (props) => {
 
             displayModalLoader(false, 'Deleted Successfully!');
             setOpenEdit(false);
-            setDisabledButton(false);
         }, 2000);
     }
 

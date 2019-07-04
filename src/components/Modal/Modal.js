@@ -7,7 +7,7 @@ import DialogContent from '@material-ui/core/DialogContent';
 import DialogTitle from '@material-ui/core/DialogTitle';
 import withMobileDialog from '@material-ui/core/withMobileDialog';
 import withModalLoader from '../Loader/ModalLoader';
-
+import { ControllActiveButton } from '../Validation/Inputs';
 function Modal(props) {
   const {
     fullScreen,
@@ -25,7 +25,8 @@ function Modal(props) {
   } = props;
 
   const [item, setItem] = useState(defaultItem);
-  const [disableButton, setDisableButton] = useState(false)
+  const [disableButton, setDisableButton] = useState(false);
+  const [isProgressing, setIsProgresssing] = useState(false)
 
   const onChangeItem = (item) => {
     setItem(item);
@@ -33,22 +34,32 @@ function Modal(props) {
 
   // Use for only componentDidUpdate
   useEffect(() => {
+    // Reset form if chosing new item (defaultItem) or open/close modal
+    setIsProgresssing(false);
     setItem(defaultItem);
-  }, [defaultItem]);
+  }, [defaultItem, open]);
 
   const handleAcceptButton = () => {
-    handleAccept(item, displayLoader, setDisableButton);
+    handleAccept(item, displayLoader);
     setDisableButton(true);
+    setIsProgresssing(true);
   }
 
   const handleDeleteButton = () => {
-    handleDelete(item.id, displayLoader, setDisableButton);
-    setDisableButton(true)
+    handleDelete(item.id, displayLoader);
+    setDisableButton(true);
+    setIsProgresssing(true);
   }
 
   const handleCancelButton = () => {
     setItem(defaultItem);
     handleCancel();
+  }
+
+  const renderControllButton = () => {
+    return (
+      !isProgressing ? <ControllActiveButton disableButton={setDisableButton} /> : null
+    )
   }
 
   return (
@@ -64,7 +75,7 @@ function Modal(props) {
         <DialogTitle id="responsive-dialog-title">{title}</DialogTitle>
         <DialogContent>
             {/* Modal content passed by prop */}
-            <ModalContent item={item} onChangeItem={onChangeItem} disableButton={setDisableButton} />
+            <ModalContent item={item} onChangeItem={onChangeItem} renderControllButton={renderControllButton} />
         </DialogContent>
         <DialogActions>
           <Button variant="contained" onClick={handleAcceptButton} color="primary" disabled={disableButton}>OK</Button>

@@ -1,6 +1,6 @@
 import React from 'react';
 import { makeStyles } from '@material-ui/core/styles';
-import { TextInput, CustomizeForm, ControllActiveButton } from '../Validation/Inputs';
+import { TextInput, CustomizeForm } from '../Validation/Inputs';
 import { required, number } from '../Validation/Rules';
 
 const useStyles = makeStyles(theme => ({
@@ -11,7 +11,7 @@ const useStyles = makeStyles(theme => ({
 }));
 
 const CreateProduct = (props) => {
-    const { onChangeItem, item, disableButton } = props
+    const { onChangeItem, item, renderControllButton } = props
     const classes = useStyles();
     
 
@@ -44,7 +44,7 @@ const CreateProduct = (props) => {
                 onChange={event => {handleChange(event, 'price')}}
                 validations={[number]}
             />
-            <ControllActiveButton disableButton={disableButton} />
+            { renderControllButton() }
         </CustomizeForm>
     );
 }

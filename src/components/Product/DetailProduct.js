@@ -1,6 +1,6 @@
 import React from 'react';
 import { makeStyles } from '@material-ui/core/styles';
-import { TextInput, CustomizeForm, ControllActiveButton } from '../Validation/Inputs';
+import { TextInput, CustomizeForm } from '../Validation/Inputs';
 import { required, number } from '../Validation/Rules';
 
 const useStyles = makeStyles(theme => ({
@@ -11,7 +11,7 @@ const useStyles = makeStyles(theme => ({
 }));
 
 const DetailProduct = (props) => {
-    const { onChangeItem, item, disableButton } = props;
+    const { onChangeItem, item, renderControllButton } = props;
     const classes = useStyles();
     
 
@@ -27,32 +27,31 @@ const DetailProduct = (props) => {
                 disabled
                 id="id"
                 label="ID"
-                value={item.id}
+                value={item.id || ''}
             />
             <TextInput
-                autoFocus
                 className={classes.margin}
                 id="name"
                 label="Name"
-                value={item.name}
+                value={item.name || ''}
                 onChange={event => {handleChange(event, 'name')}}
                 validations={[required]}
             />
             <TextInput
                 id="quantity"
                 label="Quantity"
-                value={item.quantity}
+                value={item.quantity || ''}
                 onChange={event => {handleChange(event, 'quantity')}}
                 validations={[number]}
             />
             <TextInput
                 id="price"
                 label="Price"
-                value={item.price}
+                value={item.price || ''}
                 onChange={event => {handleChange(event, 'price')}}
                 validations={[number]}
             />
-            <ControllActiveButton disableButton={disableButton} />
+            { renderControllButton() }
         </CustomizeForm>
     );
 }
