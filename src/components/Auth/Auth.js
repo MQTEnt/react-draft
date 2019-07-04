@@ -6,7 +6,7 @@ const Auth = {
          */
         if (user.email === 'admin' && user.password === 'admin') {
             this.isAuthenticated = true;
-            setTimeout(cb, 1000);
+            setTimeout(cb, 2000);
         }
         else {
             console.log('Invalid User');

@@ -46,6 +46,11 @@ function Modal(props) {
     setDisableButton(true)
   }
 
+  const handleCancelButton = () => {
+    setItem(defaultItem);
+    handleCancel();
+  }
+
   return (
     <div>
       <Dialog
@@ -64,7 +69,7 @@ function Modal(props) {
         <DialogActions>
           <Button variant="contained" onClick={handleAcceptButton} color="primary" disabled={disableButton}>OK</Button>
           { hasDelete ? <Button variant="contained" onClick={handleDeleteButton} color="secondary" disabled={disableButton}>Delete</Button> : ''}
-          <Button onClick={handleCancel} color="primary" autoFocus>Cancel</Button>
+          <Button onClick={handleCancelButton} color="primary" autoFocus>Cancel</Button>
         </DialogActions>
         { renderLoader() }
       </Dialog>

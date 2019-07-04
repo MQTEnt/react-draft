@@ -1,15 +1,6 @@
 import React, { useState } from 'react';
-import { makeStyles } from '@material-ui/core/styles';
 import LinearProgress from '@material-ui/core/LinearProgress';
 import Snackbar from '@material-ui/core/Snackbar';
-
-const useStyles = makeStyles(theme => ({
-    root: {
-        flexShrink: 0,
-        color: theme.palette.text.secondary,
-        marginLeft: theme.spacing(2.5),
-    },
-}));
 
 /*
  * HOC
@@ -17,7 +8,6 @@ const useStyles = makeStyles(theme => ({
 
 const withLoader = (WrappedComponent) => {
     const WithLoaderComponent = (props) => {
-        const classes = useStyles();
         const [message, setMessage] = useState('');
         const [isShowLoader, setIsShowLoader] = useState(false);
         const [isShowSnackBar, setIsShowSnackBar] = useState(false);
@@ -39,7 +29,7 @@ const withLoader = (WrappedComponent) => {
             }
         }
         return (
-            <div className={classes.root}>
+            <div>
                 <WrappedComponent displayLoader={displayLoader} {...props} />
                 { isShowLoader ? <LinearProgress /> : ''}
                 <Snackbar

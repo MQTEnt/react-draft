@@ -17,6 +17,8 @@ import Auth from './Auth';
 import Tooltip from '@material-ui/core/Tooltip';
 import ChatIcon from '@material-ui/icons/Chat';
 
+import CircularProgress from '@material-ui/core/CircularProgress';
+
 const auth = Auth;
 
 const useStyles = makeStyles(theme => ({
@@ -40,15 +42,23 @@ const useStyles = makeStyles(theme => ({
     },
     button: {
         margin: theme.spacing(1),
+    },
+    loaderContainer: {
+        display: 'flex',
+        alignItems: 'center',
+        justifyContent: 'center',
     }
 }));
 
 const Login = (props) => {
     const [authState, setAuthState] = useState({ redirectToReferrer: false });
     const [user, setUser] = useState({email: '', password: ''});
+    const [isLoader, setIsLoader] = useState(false)
 
     const login = () => {
+        setIsLoader(true);
         auth.authenticate(() => {
+            setIsLoader(false);
             setAuthState({ redirectToReferrer: true });
         }, user);
     };
@@ -58,6 +68,12 @@ const Login = (props) => {
         setUser({
             ...user, [type]: value
         });
+    }
+
+    const onKeyHandle = (event) => {
+        if(event.key === 'Enter'){
+            login();
+        }
     }
 
     const classes = useStyles();
@@ -91,6 +107,7 @@ const Login = (props) => {
                                     </InputAdornment>
                                 ),
                             }}
+                            onKeyPress={onKeyHandle}
                         />
 
                         <TextField
@@ -108,6 +125,7 @@ const Login = (props) => {
                                     </InputAdornment>
                                 ),
                             }}
+                            onKeyPress={onKeyHandle}
                         />
 
                         <Button variant="contained" color="primary" className={classes.button} onClick={login}>
@@ -119,6 +137,12 @@ const Login = (props) => {
                             Register
                             <CheckIcon />
                         </Button>
+
+                        { isLoader ?
+                            <div className={classes.loaderContainer}>
+                                <CircularProgress size={30}/>
+                            </div>: '' 
+                        }
                     </form>
                 </Grid>
             </Paper>
