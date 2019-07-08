@@ -1,15 +1,16 @@
 const Auth = {
     isAuthenticated: false,
-    authenticate(cb, user) {
+    authenticate(cbSuccess, cbFail, user) {
         /*
          * LOGIN
          */
         if (user.email === 'admin' && user.password === 'admin') {
             this.isAuthenticated = true;
-            setTimeout(cb, 2000);
+            setTimeout(cbSuccess, 2000);
         }
         else {
             console.log('Invalid User');
+            setTimeout(() => {cbFail('Does not match any user!')}, 2000);
         }
     },
     signout(cb) {

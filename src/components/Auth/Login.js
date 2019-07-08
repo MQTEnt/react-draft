@@ -19,6 +19,9 @@ import ChatIcon from '@material-ui/icons/Chat';
 
 import CircularProgress from '@material-ui/core/CircularProgress';
 
+import Modal from '../Modal/Modal';
+import Register from './Register';
+
 const auth = Auth;
 
 const useStyles = makeStyles(theme => ({
@@ -47,20 +50,36 @@ const useStyles = makeStyles(theme => ({
         display: 'flex',
         alignItems: 'center',
         justifyContent: 'center',
+    },
+    errorMessage: {
+        color: '#8c0303',
+        marginTop: theme.spacing(2),
     }
 }));
 
 const Login = (props) => {
     const [authState, setAuthState] = useState({ redirectToReferrer: false });
     const [user, setUser] = useState({email: '', password: ''});
-    const [isLoader, setIsLoader] = useState(false)
+    const [isLoader, setIsLoader] = useState(false);
+    const [isDisplayRegister, setDisplayRegister] = useState(false);
+    const [errorMessage, setErrorMessage] = useState('');
 
     const login = () => {
         setIsLoader(true);
-        auth.authenticate(() => {
+
+        const successHandle = () => {
             setIsLoader(false);
             setAuthState({ redirectToReferrer: true });
-        }, user);
+            setErrorMessage('');
+        }
+
+        const failHandle = (errorMessage) => {
+            setIsLoader(false);
+            setAuthState({ redirectToReferrer: false });
+            setErrorMessage(errorMessage);
+        }
+
+        auth.authenticate(successHandle, failHandle, user);
     };
 
     const handleChange = (event, type) => {
@@ -68,13 +87,25 @@ const Login = (props) => {
         setUser({
             ...user, [type]: value
         });
-    }
+    };
 
     const onKeyHandle = (event) => {
         if(event.key === 'Enter'){
             login();
         }
-    }
+    };
+
+    const handleRegisterClick = () => {
+        setDisplayRegister(true);
+    };
+
+    const handleClickRegister = (item, displayLoader) => {
+        displayLoader(true)
+        setTimeout(() => {
+            displayLoader(false, 'Register Successfully');
+            setDisplayRegister(false);
+        }, 2000);
+    };
 
     const classes = useStyles();
     let { from } = props.location.state || { from: { pathname: "/" } };
@@ -133,7 +164,7 @@ const Login = (props) => {
                             <ChevronRightIcon />
                         </Button>
 
-                        <Button variant="contained" color="secondary" className={classes.button}>
+                        <Button variant="contained" color="secondary" className={classes.button} onClick={handleRegisterClick}>
                             Register
                             <CheckIcon />
                         </Button>
@@ -145,7 +176,16 @@ const Login = (props) => {
                         }
                     </form>
                 </Grid>
+                { errorMessage ? <div className={classes.errorMessage}>{ errorMessage }</div> : '' }
             </Paper>
+            <Modal
+                open={isDisplayRegister}
+                handleClose={() => { setDisplayRegister(false) }}
+                handleAccept={handleClickRegister}
+                handleCancel={() => { setDisplayRegister(false) }}
+                title={"Register"}
+                ModalContent={Register}
+            />
         </div>
     )
 }

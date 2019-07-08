@@ -33,6 +33,7 @@ const Product = (props) => {
         displayLoader(true);
 
         setTimeout(() => {
+            console.log('Load Data List');
             if (isSubscribed) {
                 displayLoader(false);
                 setItems(rows);
