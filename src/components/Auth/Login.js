@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import { makeStyles } from '@material-ui/core/styles';
 import Paper from '@material-ui/core/Paper';
 import Grid from '@material-ui/core/Grid';
@@ -64,19 +64,25 @@ const Login = (props) => {
     const [isDisplayRegister, setDisplayRegister] = useState(false);
     const [errorMessage, setErrorMessage] = useState('');
 
+    useEffect(() => {
+        return () => {
+            console.log('Routing...');
+        };
+    });
+
     const login = () => {
         setIsLoader(true);
 
         const successHandle = () => {
             setIsLoader(false);
-            setAuthState({ redirectToReferrer: true });
             setErrorMessage('');
+            setAuthState({ redirectToReferrer: true });
         }
 
         const failHandle = (errorMessage) => {
             setIsLoader(false);
-            setAuthState({ redirectToReferrer: false });
             setErrorMessage(errorMessage);
+            setAuthState({ redirectToReferrer: false });
         }
 
         auth.authenticate(successHandle, failHandle, user);
@@ -95,7 +101,7 @@ const Login = (props) => {
         }
     };
 
-    const handleRegisterClick = () => {
+    const openRegisterModal = () => {
         setDisplayRegister(true);
     };
 
@@ -164,7 +170,7 @@ const Login = (props) => {
                             <ChevronRightIcon />
                         </Button>
 
-                        <Button variant="contained" color="secondary" className={classes.button} onClick={handleRegisterClick}>
+                        <Button variant="contained" color="secondary" className={classes.button} onClick={openRegisterModal}>
                             Register
                             <CheckIcon />
                         </Button>
