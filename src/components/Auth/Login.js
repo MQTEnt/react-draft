@@ -66,7 +66,7 @@ const Login = (props) => {
 
     useEffect(() => {
         return () => {
-            console.log('Routing...');
+            // Clean component handle
         };
     });
 
@@ -106,11 +106,21 @@ const Login = (props) => {
     };
 
     const handleClickRegister = (item, displayLoader) => {
-        displayLoader(true)
-        setTimeout(() => {
+        displayLoader(true);
+        const success = () => {
             displayLoader(false, 'Register Successfully');
             setDisplayRegister(false);
-        }, 2000);
+
+            setTimeout(() => {
+                setAuthState({ redirectToReferrer: true });
+            }, 2000);  
+        }
+        const fail = () => {
+            displayLoader(false, 'Register failed');
+            setDisplayRegister(false);
+            console.log('Register and login fail');
+        }
+        auth.register(success, fail, item);  
     };
 
     const classes = useStyles();
@@ -217,5 +227,3 @@ const PrivateRoute = ({ component: Component, ...rest }) => {
 }
 
 export { Login, PrivateRoute };
-
-export default Login
